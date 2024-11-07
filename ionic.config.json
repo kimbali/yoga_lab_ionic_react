@@ -1,0 +1,7 @@
+{
+  "name": "yogaLabReact",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
