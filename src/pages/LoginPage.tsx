@@ -19,6 +19,7 @@ import { logInOutline } from "ionicons/icons";
 import { login as loginService } from "../services/authService";
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
+import splashImg from "../assets/splash-page.jpg"; // Make sure this path is correct
 
 const LoginPage: React.FC = () => {
   const { login } = useAuth();
@@ -54,6 +55,14 @@ const LoginPage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
+        <div className='ion-text-center ion-padding'>
+          <img
+            src={splashImg}
+            alt='Image of a person doing a yoga posture'
+            width={"50%"}
+          />
+        </div>
+
         <IonCard>
           <IonCardContent>
             <form onSubmit={handleLogin}>
