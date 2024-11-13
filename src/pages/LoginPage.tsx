@@ -11,9 +11,7 @@ import {
   IonIcon,
   IonInput,
   IonItem,
-  IonList,
-  IonButtons,
-  IonBackButton,
+  IonList, IonGrid, IonRow, IonCol,
 } from "@ionic/react";
 import { logInOutline } from "ionicons/icons";
 import { login as loginService } from "../services/authService";
@@ -55,56 +53,67 @@ const LoginPage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <div className='ion-text-center ion-padding'>
-          <img
-            src={splashImg}
-            alt='Image of a person doing a yoga posture'
-            width={"50%"}
-          />
-        </div>
+        <IonGrid fixed>
+          <IonRow class='ion-justify-content-center'>
+            <IonCol sizeXs='12' sizeMd='8' sizeLg='6' sizeXl='4'>
+              <div className='ion-text-center ion-padding'>
+                <img
+                    src={splashImg}
+                    alt='Image of a person doing a yoga posture'
+                    width={"50%"}
+                />
+              </div>
+            </IonCol>
+          </IonRow>
+          <IonRow class='ion-justify-content-center'>
+            <IonCol sizeXs='12' sizeMd='8' sizeLg='6' sizeXl='4'>
+              <IonCard>
+                <IonCardContent>
+                  <form onSubmit={handleLogin}>
+                    <IonList>
+                      <IonItem>
+                        <IonInput
+                            className='ion-margin'
+                            fill='outline'
+                            labelPlacement='stacked'
+                            label='Email'
+                            type='email'
+                            placeholder='jonDoe@gmail.com'
+                            value={username}
+                            onIonChange={(e) => setEmail(e.detail.value!)}
+                        />
+                      </IonItem>
+                      <IonItem>
+                        <IonInput
+                            className='ion-margin'
+                            fill='outline'
+                            labelPlacement='stacked'
+                            label='Password'
+                            type='password'
+                            value={password}
+                            onIonChange={(e) => setPassword(e.detail.value!)}
+                        />
+                      </IonItem>
+                    </IonList>
 
-        <IonCard>
-          <IonCardContent>
-            <form onSubmit={handleLogin}>
-              <IonList>
-                <IonItem>
-                  <IonInput
-                    className='ion-margin'
-                    fill='outline'
-                    labelPlacement='stacked'
-                    label='Email'
-                    type='email'
-                    placeholder='jonDoe@gmail.com'
-                    value={username}
-                    onIonChange={(e) => setEmail(e.detail.value!)}
-                  />
-                </IonItem>
-                <IonItem>
-                  <IonInput
-                    className='ion-margin'
-                    fill='outline'
-                    labelPlacement='stacked'
-                    label='Password'
-                    type='password'
-                    value={password}
-                    onIonChange={(e) => setPassword(e.detail.value!)}
-                  />
-                </IonItem>
-              </IonList>
+                    {error && <p>Error: {error}</p>}
 
-              {error && <p>Error: {error}</p>}
+                    <IonButton type='submit' expand='block'>
+                      Login
+                      <IonIcon icon={logInOutline} slot='end' />
+                    </IonButton>
 
-              <IonButton type='submit' expand='block'>
-                Login
-                <IonIcon icon={logInOutline} slot='end' />
-              </IonButton>
+                    <p>
+                      Don't have an account? <Link to='/signup'>Sign up here</Link>
+                    </p>
+                  </form>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+          </IonRow>
 
-              <p>
-                Don't have an account? <Link to='/signup'>Sign up here</Link>
-              </p>
-            </form>
-          </IonCardContent>
-        </IonCard>
+        </IonGrid>
+
       </IonContent>
     </IonPage>
   );
