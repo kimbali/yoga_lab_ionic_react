@@ -47,6 +47,7 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import Menu from "./pages/Menu";
 
 setupIonicReact();
 
@@ -77,6 +78,7 @@ const App: React.FC = () => (
           <IonRouterOutlet>
             <Route exact path='/login' component={LoginPage} />
             <Route exact path='/signup' component={SignUp} />
+            <Route exact path='/app' component={Menu} />
 
             {/* Protected Routes - only accesible for logged users */}
             <ProtectedRoute exact path='/tab1' component={Tab1} />
