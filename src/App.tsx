@@ -10,7 +10,7 @@ import {
   setupIonicReact,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
+import { ellipse, home, square, triangle } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
@@ -47,7 +47,8 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import Menu from "./pages/Menu";
+import Menu from './pages/Menu';
+import GLOBAL from './utils/global';
 
 setupIonicReact();
 
@@ -76,29 +77,34 @@ const App: React.FC = () => (
       <AuthProvider>
         <IonTabs>
           <IonRouterOutlet>
-            <Route exact path='/login' component={LoginPage} />
-            <Route exact path='/signup' component={SignUp} />
-            <Route exact path='/app' component={Menu} />
+            <Route exact path={GLOBAL.ROUTES.LOGIN} component={LoginPage} />
+            <Route exact path={GLOBAL.ROUTES.SIGNUP} component={SignUp} />
+            <Route exact path={GLOBAL.ROUTES.APP} component={Menu} />
 
             {/* Protected Routes - only accesible for logged users */}
-            <ProtectedRoute exact path='/tab1' component={Tab1} />
-            <ProtectedRoute exact path='/tab2' component={Tab2} />
-            <ProtectedRoute path='/tab3' component={Tab3} />
+            <ProtectedRoute exact path={GLOBAL.ROUTES.TAB1} component={Tab1} />
+            <ProtectedRoute exact path={GLOBAL.ROUTES.TAB2} component={Tab2} />
+            <ProtectedRoute path={GLOBAL.ROUTES.TAB3} component={Tab3} />
 
             <Route exact path='/'>
-              <Redirect to='/login' />
+              <Redirect to={GLOBAL.ROUTES.LOGIN} />
             </Route>
           </IonRouterOutlet>
+
           <IonTabBar slot='bottom'>
-            <IonTabButton tab='tab1' href='/tab1'>
+            <IonTabButton tab='menu' href={GLOBAL.ROUTES.APP}>
+              <IonIcon aria-hidden='true' icon={home} />
+              <IonLabel>Menu</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab='tab1' href={GLOBAL.ROUTES.TAB1}>
               <IonIcon aria-hidden='true' icon={triangle} />
               <IonLabel>Tab 1</IonLabel>
             </IonTabButton>
-            <IonTabButton tab='tab2' href='/tab2'>
+            <IonTabButton tab='tab2' href={GLOBAL.ROUTES.TAB2}>
               <IonIcon aria-hidden='true' icon={ellipse} />
               <IonLabel>Tab 2</IonLabel>
             </IonTabButton>
-            <IonTabButton tab='tab3' href='/tab3'>
+            <IonTabButton tab='tab3' href={GLOBAL.ROUTES.TAB3}>
               <IonIcon aria-hidden='true' icon={square} />
               <IonLabel>Tab 3</IonLabel>
             </IonTabButton>

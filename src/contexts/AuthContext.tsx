@@ -1,3 +1,4 @@
+import { useIonRouter } from '@ionic/react';
 import React, {
   createContext,
   useContext,
@@ -6,6 +7,7 @@ import React, {
   ReactNode,
 } from 'react';
 import { useHistory } from 'react-router-dom';
+import GLOBAL from '../utils/global';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -20,6 +22,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const history = useHistory();
+  const router = useIonRouter();
 
   // Simulamos la carga del estado de autenticación desde almacenamiento local al iniciar la app
   useEffect(() => {
@@ -32,13 +35,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const login = (token: string) => {
     localStorage.setItem('authToken', token);
     setIsAuthenticated(true);
-    history.push('/tab1'); // Redirigir a la página principal
+    router.push(GLOBAL.ROUTES.APP); // Redirigir a la página principal
   };
 
   const logout = () => {
     localStorage.removeItem('authToken');
     setIsAuthenticated(false);
-    history.push('/login'); // Redirigir a la página de login
+    router.push(GLOBAL.ROUTES.LOGIN); // Redirigir a la página de login
   };
 
   return (
