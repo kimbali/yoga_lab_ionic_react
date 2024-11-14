@@ -21,6 +21,7 @@ import { login as loginService } from '../services/authService';
 import { useAuth } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import splashImg from '../assets/splash-page.jpg'; // Make sure this path is correct
+import Layout from '../components/Layout/Layout';
 
 const LoginPage: React.FC = () => {
   const { login } = useAuth();
@@ -48,75 +49,68 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar color={'primary'}>
-          <IonTitle>Login</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-        <IonGrid fixed>
-          <IonRow class='ion-justify-content-center'>
-            <IonCol sizeXs='12' sizeMd='8' sizeLg='6' sizeXl='4'>
-              <div className='ion-text-center ion-padding'>
-                <img
-                  src={splashImg}
-                  alt='Image of a person doing a yoga posture'
-                  width={'50%'}
-                />
-              </div>
-            </IonCol>
-          </IonRow>
-          <IonRow class='ion-justify-content-center'>
-            <IonCol sizeXs='12' sizeMd='8' sizeLg='6' sizeXl='4'>
-              <IonCard>
-                <IonCardContent>
-                  <form onSubmit={handleLogin}>
-                    <IonList>
-                      <IonItem>
-                        <IonInput
-                          className='ion-margin'
-                          fill='outline'
-                          labelPlacement='stacked'
-                          label='Email'
-                          type='email'
-                          placeholder='jonDoe@gmail.com'
-                          value={username}
-                          onIonChange={e => setEmail(e.detail.value!)}
-                        />
-                      </IonItem>
-                      <IonItem>
-                        <IonInput
-                          className='ion-margin'
-                          fill='outline'
-                          labelPlacement='stacked'
-                          label='Password'
-                          type='password'
-                          value={password}
-                          onIonChange={e => setPassword(e.detail.value!)}
-                        />
-                      </IonItem>
-                    </IonList>
+    <Layout title='login'>
+      <IonGrid fixed>
+        <IonRow class='ion-justify-content-center'>
+          <IonCol sizeXs='12' sizeMd='8' sizeLg='6' sizeXl='4'>
+            <div className='ion-text-center ion-padding'>
+              <img
+                src={splashImg}
+                alt='Image of a person doing a yoga posture'
+                width={'50%'}
+              />
+            </div>
+          </IonCol>
+        </IonRow>
+        <IonRow class='ion-justify-content-center'>
+          <IonCol sizeXs='12' sizeMd='8' sizeLg='6' sizeXl='4'>
+            <IonCard>
+              <IonCardContent>
+                <form onSubmit={handleLogin}>
+                  <IonList>
+                    <IonItem>
+                      <IonInput
+                        className='ion-margin'
+                        fill='outline'
+                        labelPlacement='stacked'
+                        label='Email'
+                        type='email'
+                        placeholder='jonDoe@gmail.com'
+                        value={username}
+                        onIonChange={e => setEmail(e.detail.value!)}
+                      />
+                    </IonItem>
+                    <IonItem>
+                      <IonInput
+                        className='ion-margin'
+                        fill='outline'
+                        labelPlacement='stacked'
+                        label='Password'
+                        type='password'
+                        value={password}
+                        onIonChange={e => setPassword(e.detail.value!)}
+                      />
+                    </IonItem>
+                  </IonList>
 
-                    {error && <p>Error: {error}</p>}
+                  {error && <p>Error: {error}</p>}
 
-                    <IonButton type='submit' expand='block'>
-                      Login
-                      <IonIcon icon={logInOutline} slot='end' />
-                    </IonButton>
+                  <IonButton type='submit' expand='block'>
+                    Login
+                    <IonIcon icon={logInOutline} slot='end' />
+                  </IonButton>
 
-                    <p>
-                      Don't have an account?{' '}
-                      <Link to='/signup'>Sign up here</Link>
-                    </p>
-                  </form>
-                </IonCardContent>
-              </IonCard>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-      </IonContent>
-    </IonPage>
+                  <p>
+                    Don't have an account?{' '}
+                    <Link to='/signup'>Sign up here</Link>
+                  </p>
+                </form>
+              </IonCardContent>
+            </IonCard>
+          </IonCol>
+        </IonRow>
+      </IonGrid>
+    </Layout>
   );
 };
 

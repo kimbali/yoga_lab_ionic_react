@@ -1,31 +1,40 @@
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import { IonButton, IonIcon, IonImg } from '@ionic/react';
+import LOTUS_WOMAN from '../assets/lotus-woman.png';
+import { calendar, location, phonePortrait } from 'ionicons/icons';
+import GLOBAL from '../utils/global';
+import Layout from '../components/Layout/Layout';
+import Lotus from '../components/svg/Lotus';
 
 const Menu: React.FC = () => {
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>YogaLab Barcelona</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+    <Layout title='YogaLab Barcelona'>
+      <IonImg
+        src={LOTUS_WOMAN}
+        alt='Mujer haciendo la postura de lotus de yoga'
+      ></IonImg>
 
-      <IonContent fullscreen>
-        <IonHeader collapse='condense'>
-          <IonToolbar>
-            <IonTitle size='large'>Menu</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+      <div className='ion-text-center'>
+        <h1>Bienvenido a YogaLab</h1>
+        <Lotus />
+        <h2>Tu espacio de cuidado personal</h2>
 
-        <ExploreContainer name='Landing con botton a: Reservar classe' />
-      </IonContent>
-    </IonPage>
+        <IonButton href={`tel:${'617791443'}`} color='tertiary'>
+          <IonIcon slot='start' icon={phonePortrait} />
+          Llamar a la escuela
+        </IonButton>
+
+        <IonButton href={GLOBAL.ROUTES.LOCATION} color='tertiary'>
+          <IonIcon slot='start' icon={location} />
+          Ver localización
+        </IonButton>
+
+        <p>Recuerda llegar 10 minutos antes del comienzo de la clase</p>
+
+        <IonButton size='large' expand='block' href={GLOBAL.ROUTES.BOOKINGS}>
+          <IonIcon slot='start' icon={calendar}></IonIcon>Realizar reserva
+        </IonButton>
+      </div>
+    </Layout>
   );
 };
 

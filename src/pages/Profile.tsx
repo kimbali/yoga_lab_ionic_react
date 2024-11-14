@@ -1,29 +1,10 @@
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import Layout from '../components/Layout/Layout';
 
 const Profile: React.FC = () => {
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Mi perfil</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse='condense'>
-          <IonToolbar>
-            <IonTitle size='large'>Mi perfil</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer name='Datos del usuario' />
-      </IonContent>
-    </IonPage>
+    <Layout title='Perfil'>
+      <p>Datos del usuario i formulario de foto</p>
+    </Layout>
   );
 };
 

@@ -21,6 +21,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const history = useHistory();
   const router = useIonRouter();
 
@@ -30,6 +32,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     if (token) {
       setIsAuthenticated(true);
     }
+  }, []);
+
+  useEffect(() => {
+    // Simulate async authentication check (e.g., check localStorage or API)
+    const checkAuth = () => {
+      const token = localStorage.getItem('authToken');
+      setIsAuthenticated(!!token); // if token exists, user is authenticated
+      setIsLoading(false); // finished loading
+    };
+
+    checkAuth();
   }, []);
 
   const login = (token: string) => {
@@ -43,6 +56,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     setIsAuthenticated(false);
     router.push(GLOBAL.ROUTES.LOGIN); // Redirigir a la página de login
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Optionally, show a loading spinner while checking authentication
+  }
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>

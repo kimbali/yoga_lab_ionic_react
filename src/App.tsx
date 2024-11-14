@@ -67,6 +67,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   ...rest
 }) => {
   const { isAuthenticated } = useAuth();
+
   return (
     <Route
       {...rest}
