@@ -2,7 +2,6 @@ import { Redirect, Route, RouteProps } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
-  IonLabel,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
@@ -10,10 +9,13 @@ import {
   setupIonicReact,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, home, square, triangle } from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+import {
+  calendar,
+  home,
+  location,
+  notifications,
+  person,
+} from 'ionicons/icons';
 import LoginPage from './pages/LoginPage';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import SignUp from './pages/SignUp';
@@ -49,6 +51,10 @@ import '@ionic/react/css/palettes/dark.system.css';
 import './theme/variables.css';
 import Menu from './pages/Menu';
 import GLOBAL from './utils/global';
+import Bookings from './pages/Bookings';
+import Profile from './pages/Profile';
+import Messages from './pages/Messages';
+import Location from './pages/Location';
 
 setupIonicReact();
 
@@ -65,7 +71,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     <Route
       {...rest}
       render={props =>
-        isAuthenticated ? <Component {...props} /> : <Redirect to='/login' />
+        isAuthenticated ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={GLOBAL.ROUTES.LOGIN} />
+        )
       }
     />
   );
@@ -82,9 +92,26 @@ const App: React.FC = () => (
             <Route exact path={GLOBAL.ROUTES.APP} component={Menu} />
 
             {/* Protected Routes - only accesible for logged users */}
-            <ProtectedRoute exact path={GLOBAL.ROUTES.TAB1} component={Tab1} />
-            <ProtectedRoute exact path={GLOBAL.ROUTES.TAB2} component={Tab2} />
-            <ProtectedRoute path={GLOBAL.ROUTES.TAB3} component={Tab3} />
+            <ProtectedRoute
+              exact
+              path={GLOBAL.ROUTES.BOOKINGS}
+              component={Bookings}
+            />
+            <ProtectedRoute
+              exact
+              path={GLOBAL.ROUTES.PROFILE}
+              component={Profile}
+            />
+            <ProtectedRoute
+              exact
+              path={GLOBAL.ROUTES.MESSAGES}
+              component={Messages}
+            />
+            <ProtectedRoute
+              exact
+              path={GLOBAL.ROUTES.LOCATION}
+              component={Location}
+            />
 
             <Route exact path='/'>
               <Redirect to={GLOBAL.ROUTES.LOGIN} />
@@ -94,19 +121,18 @@ const App: React.FC = () => (
           <IonTabBar slot='bottom'>
             <IonTabButton tab='menu' href={GLOBAL.ROUTES.APP}>
               <IonIcon aria-hidden='true' icon={home} />
-              <IonLabel>Menu</IonLabel>
             </IonTabButton>
-            <IonTabButton tab='tab1' href={GLOBAL.ROUTES.TAB1}>
-              <IonIcon aria-hidden='true' icon={triangle} />
-              <IonLabel>Tab 1</IonLabel>
+            <IonTabButton tab='location' href={GLOBAL.ROUTES.LOCATION}>
+              <IonIcon aria-hidden='true' icon={location} />
             </IonTabButton>
-            <IonTabButton tab='tab2' href={GLOBAL.ROUTES.TAB2}>
-              <IonIcon aria-hidden='true' icon={ellipse} />
-              <IonLabel>Tab 2</IonLabel>
+            <IonTabButton tab='bookings' href={GLOBAL.ROUTES.BOOKINGS}>
+              <IonIcon aria-hidden='true' icon={calendar} />
             </IonTabButton>
-            <IonTabButton tab='tab3' href={GLOBAL.ROUTES.TAB3}>
-              <IonIcon aria-hidden='true' icon={square} />
-              <IonLabel>Tab 3</IonLabel>
+            <IonTabButton tab='profile' href={GLOBAL.ROUTES.PROFILE}>
+              <IonIcon aria-hidden='true' icon={person} />
+            </IonTabButton>
+            <IonTabButton tab='messages' href={GLOBAL.ROUTES.MESSAGES}>
+              <IonIcon aria-hidden='true' icon={notifications} />
             </IonTabButton>
           </IonTabBar>
         </IonTabs>

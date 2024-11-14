@@ -7,26 +7,24 @@ import {
 } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 
-const Menu: React.FC = () => {
+const Location: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>YogaLab Barcelona</IonTitle>
+          <IonTitle>Localizacion del centro</IonTitle>
         </IonToolbar>
       </IonHeader>
-
       <IonContent fullscreen>
         <IonHeader collapse='condense'>
           <IonToolbar>
-            <IonTitle size='large'>Menu</IonTitle>
+            <IonTitle size='large'>Localizacion del centro</IonTitle>
           </IonToolbar>
         </IonHeader>
-
-        <ExploreContainer name='Landing con botton a: Reservar classe' />
+        <ExploreContainer name='Mapa de localizacion' />
       </IonContent>
     </IonPage>
   );
 };
 
-export default Menu;
+export default Location;

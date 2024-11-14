@@ -4,9 +4,10 @@ const GLOBAL = {
     APP: '/app',
     LOGIN: '/login',
     SIGNUP: '/signup',
-    TAB1: '/tab1',
-    TAB2: '/tab2',
-    TAB3: '/tab3'
+    BOOKINGS: '/bookings',
+    PROFILE: '/profile',
+    LOCATION: '/location',
+    MESSAGES: '/messages',
   },
 };
 
