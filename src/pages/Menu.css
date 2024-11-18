@@ -1,0 +1,32 @@
+/* Menu.css */
+.centered-image {
+    max-width: 100%;
+    width: 80%;
+    height: auto;
+    margin: 0 auto;
+}
+/* Ensure the card fills the column width and centers content within */
+.menu-card {
+    width: 100%; /* Use full width of the column */
+    box-sizing: border-box; /* Include padding in width */
+    margin: 0; /* Remove any default margin */
+}
+
+
+.button-container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .button-container {
+        flex-direction: column;
+    }
+}
+
+.custom-card {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}

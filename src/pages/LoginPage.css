@@ -1,0 +1,29 @@
+/* LoginPage.css */
+.splash-image {
+    max-width: 50%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.form-container {
+    padding: 1rem;
+}
+
+.error-message {
+    color: var(--ion-color-danger);
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+.login-button {
+    margin-top: 1rem;
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 1rem;
+    color: var(--ion-color-primary);
+    font-weight: 500;
+}

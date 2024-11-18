@@ -14,7 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ title, children }) => {
       <Header title={title} />
 
       <IonContent fullscreen color={'secondary'}>
-        <div className='ion-margin'>{children}</div>
+        <div>{children}</div>
       </IonContent>
     </IonPage>
   );

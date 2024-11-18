@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "839135900911",
+    "project_id": "yoga-lab-final",
+    "storage_bucket": "yoga-lab-final.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839135900911:android:3414db366dce4db749571a",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBbyUKt_DIUKHSY7EvrRXzdlzYG-Uurbk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
