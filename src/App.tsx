@@ -76,6 +76,7 @@ const App: React.FC = () => (
             <Route exact path={GLOBAL.ROUTES.LOGIN} component={LoginPage} />
             <Route exact path={GLOBAL.ROUTES.SIGNUP} component={SignUp} />
             <Route exact path={GLOBAL.ROUTES.APP} component={Menu} />
+            <Route exact path={GLOBAL.ROUTES.PROFILE} component={Profile} />
 
             {/* Protected Routes (only accessible for logged-in users) */}
             <ProtectedRoute
@@ -83,11 +84,11 @@ const App: React.FC = () => (
               path={GLOBAL.ROUTES.BOOKINGS}
               component={Bookings}
             />
-            <ProtectedRoute
-              exact
-              path={GLOBAL.ROUTES.PROFILE}
-              component={Profile}
-            />
+            {/*<ProtectedRoute*/}
+            {/*  exact*/}
+            {/*  path={GLOBAL.ROUTES.PROFILE}*/}
+            {/*  component={Profile}*/}
+            {/*/>*/}
             <ProtectedRoute
               exact
               path={GLOBAL.ROUTES.MESSAGES}
