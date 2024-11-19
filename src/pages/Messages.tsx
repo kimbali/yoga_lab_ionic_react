@@ -1,6 +1,13 @@
-// src/pages/Tab1.tsx
 import React, { useEffect } from "react";
-import { IonButton, IonCard, IonCardContent } from "@ionic/react";
+import {
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonGrid,
+  IonRow,
+  IonCol,
+} from "@ionic/react";
 
 import {
   registerNotifications,
@@ -25,26 +32,45 @@ const Messages: React.FC = () => {
   }, []); // Empty dependency array ensures this runs only once
 
   return (
-    <Layout title={"push notifications"}>
-      <IonCard>
-        <IonCardContent>
-          <IonButton onClick={getDeliveredNotifications}>
-            get delivered notification
-          </IonButton>
-        </IonCardContent>
-      </IonCard>
-    </Layout>
+      <Layout title="Push Notifications">
+        <IonGrid>
+          <IonRow className="ion-justify-content-center">
+            <IonCol size="12" size-md="6">
+              <IonCard>
+                <IonCardHeader style={{ textAlign: "center", color: "var(--ion-color-dark)" }}>
+                  <h2>Manage Notifications</h2>
+                </IonCardHeader>
+                <IonCardContent>
+                  <p
+                      style={{
+                        textAlign: "center",
+                        marginBottom: "20px",
+                        color: "var(--ion-color-medium)",
+                      }}
+                  >
+                    Click below to fetch delivered notifications.
+                  </p>
+                  <div style={{ textAlign: "center" }}>
+                    <IonButton
+                        onClick={getDeliveredNotifications}
+                        color="primary"
+                        expand="block"
+                        style={{
+                          "--background": "var(--ion-color-primary)",
+                          "--color": "var(--ion-color-primary-contrast)",
+                        }}
+                        aria-label="Fetch delivered notifications"
+                    >
+                      Get Delivered Notifications
+                    </IonButton>
+                  </div>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
+      </Layout>
   );
 };
 
 export default Messages;
-
-/*
-How This Works
-useEffect Hook:
-Initializes push notifications by calling registerNotifications and setting up listeners with addListeners.
-This ensures that the logic runs once when the component is loaded.
-Button for Fetching Notifications:
-The button labeled "Get Delivered Notifications" calls the getDeliveredNotifications function when clicked, allowing you to fetch and log delivered notifications.
-Separation of Concerns:
-The push notification logic is encapsulated in the utility file, keeping your Tab1 component clean and focused on rendering UI.*/
