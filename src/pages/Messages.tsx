@@ -8,14 +8,12 @@ import {
   IonRow,
   IonCol,
 } from "@ionic/react";
-
 import {
   registerNotifications,
   addListeners,
   getDeliveredNotifications,
 } from "../services/pushNotificationService";
 import Layout from "../components/Layout/Layout";
-
 const Messages: React.FC = () => {
   useEffect(() => {
     const initializePushNotifications = async () => {
@@ -27,10 +25,8 @@ const Messages: React.FC = () => {
         console.error("Error initializing push notifications", error);
       }
     };
-
     initializePushNotifications();
   }, []); // Empty dependency array ensures this runs only once
-
   return (
       <Layout title="Push Notifications">
         <IonGrid>
@@ -72,5 +68,4 @@ const Messages: React.FC = () => {
       </Layout>
   );
 };
-
 export default Messages;

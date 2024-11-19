@@ -15,13 +15,11 @@ import {
 } from "@ionic/react";
 import { camera } from "ionicons/icons";
 import Layout from "../components/Layout/Layout";
-
 const Profile: React.FC = () => {
     const handleTakePicture = () => {
         console.log("Take Picture button clicked!");
         // Logic for taking a picture will be added later
     };
-
     return (
         <Layout title="My Profile">
             <IonGrid>
@@ -45,7 +43,6 @@ const Profile: React.FC = () => {
                                     </h2>
                                 </IonLabel>
                             </IonCardHeader>
-
                             {/* User Info */}
                             <IonCardContent>
                                 <IonItem lines="none" style={{ "--background": "transparent" }}>
@@ -58,7 +55,6 @@ const Profile: React.FC = () => {
                                         </p>
                                     </IonLabel>
                                 </IonItem>
-
                                 {/* Take Picture Button */}
                                 <div style={{ textAlign: "center", marginTop: "20px" }}>
                                     <IonButton
@@ -81,5 +77,4 @@ const Profile: React.FC = () => {
         </Layout>
     );
 };
-
 export default Profile;
