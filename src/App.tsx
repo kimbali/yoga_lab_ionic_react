@@ -1,4 +1,4 @@
-import { Redirect, Route, RouteProps } from "react-router-dom";
+import { useEffect } from "react";
 import {
   IonApp,
   IonIcon,
@@ -16,6 +16,7 @@ import {
   notifications,
   person,
 } from "ionicons/icons";
+import { Redirect, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import SignUp from "./pages/SignUp";
@@ -25,8 +26,8 @@ import Bookings from "./pages/Bookings";
 import Profile from "./pages/Profile";
 import Messages from "./pages/Messages";
 import Location from "./pages/Location";
+import { registerNotifications, addListeners } from "./services/pushNotificationService";
 
-// Core and Ionic CSS imports
 import "@ionic/react/css/core.css";
 import "@ionic/react/css/normalize.css";
 import "@ionic/react/css/structure.css";
@@ -42,92 +43,58 @@ import "./theme/variables.css";
 
 setupIonicReact();
 
-interface ProtectedRouteProps extends RouteProps {
-  component: React.ComponentType<any>;
-}
+const App: React.FC = () => {
+  useEffect(() => {
+    const initializePushNotifications = async () => {
+      try {
+        console.log("Initializing push notifications...");
+        await registerNotifications();
+        await addListeners();
+      } catch (error) {
+        console.error("Error initializing push notifications:", error);
+      }
+    };
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
-  component: Component,
-  ...rest
-}) => {
-  const { isAuthenticated } = useAuth();
+    initializePushNotifications();
+  }, []);
 
   return (
-    <Route
-      {...rest}
-      render={(props) =>
-        isAuthenticated ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to={GLOBAL.ROUTES.LOGIN} />
-        )
-      }
-    />
+      <IonApp>
+        <IonReactRouter>
+          <AuthProvider>
+            <IonTabs>
+              <IonRouterOutlet>
+                <Route exact path={GLOBAL.ROUTES.LOGIN} component={LoginPage} />
+                <Route exact path={GLOBAL.ROUTES.SIGNUP} component={SignUp} />
+                <Route exact path={GLOBAL.ROUTES.APP} component={Menu} />
+                <Route exact path={GLOBAL.ROUTES.MESSAGES} component={Messages} />
+                <Route exact path={GLOBAL.ROUTES.PROFILE} component={Profile} />
+                <Route exact path="/">
+                  <Redirect to={GLOBAL.ROUTES.LOGIN} />
+                </Route>
+              </IonRouterOutlet>
+              <IonTabBar slot="bottom">
+                <IonTabButton tab="menu" href={GLOBAL.ROUTES.APP}>
+                  <IonIcon aria-hidden="true" icon={home} />
+                </IonTabButton>
+                <IonTabButton tab="location" href={GLOBAL.ROUTES.LOCATION}>
+                  <IonIcon aria-hidden="true" icon={location} />
+                </IonTabButton>
+                <IonTabButton tab="bookings" href={GLOBAL.ROUTES.BOOKINGS}>
+                  <IonIcon aria-hidden="true" icon={calendar} />
+                </IonTabButton>
+                <IonTabButton tab="profile" href={GLOBAL.ROUTES.PROFILE}>
+                  <IonIcon aria-hidden="true" icon={person} />
+                </IonTabButton>
+                <IonTabButton tab="messages" href={GLOBAL.ROUTES.MESSAGES}>
+                  <IonIcon aria-hidden="true" icon={notifications} />
+                </IonTabButton>
+              </IonTabBar>
+            </IonTabs>
+          </AuthProvider>
+        </IonReactRouter>
+      </IonApp>
   );
 };
-
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <AuthProvider>
-        <IonTabs>
-          <IonRouterOutlet>
-            {/* Public Routes */}
-            <Route exact path={GLOBAL.ROUTES.LOGIN} component={LoginPage} />
-            <Route exact path={GLOBAL.ROUTES.SIGNUP} component={SignUp} />
-            <Route exact path={GLOBAL.ROUTES.APP} component={Menu} />
-            {/*<Route exact path={GLOBAL.ROUTES.MESSAGES} component={Messages} />*/}
-
-            {/* Protected Routes (only accessible for logged-in users) */}
-            <ProtectedRoute
-              exact
-              path={GLOBAL.ROUTES.BOOKINGS}
-              component={Bookings}
-            />
-            <ProtectedRoute
-              exact
-              path={GLOBAL.ROUTES.PROFILE}
-              component={Profile}
-            />
-            <ProtectedRoute
-              exact
-              path={GLOBAL.ROUTES.MESSAGES}
-              component={Messages}
-            />
-            <ProtectedRoute
-              exact
-              path={GLOBAL.ROUTES.LOCATION}
-              component={Location}
-            />
-
-            {/* Default Redirect (in case no route is matched) */}
-            <Route exact path='/'>
-              <Redirect to={GLOBAL.ROUTES.LOGIN} />
-            </Route>
-          </IonRouterOutlet>
-
-          {/* Tab Bar */}
-          <IonTabBar slot='bottom'>
-            <IonTabButton tab='menu' href={GLOBAL.ROUTES.APP}>
-              <IonIcon aria-hidden='true' icon={home} />
-            </IonTabButton>
-            <IonTabButton tab='location' href={GLOBAL.ROUTES.LOCATION}>
-              <IonIcon aria-hidden='true' icon={location} />
-            </IonTabButton>
-            <IonTabButton tab='bookings' href={GLOBAL.ROUTES.BOOKINGS}>
-              <IonIcon aria-hidden='true' icon={calendar} />
-            </IonTabButton>
-            <IonTabButton tab='profile' href={GLOBAL.ROUTES.PROFILE}>
-              <IonIcon aria-hidden='true' icon={person} />
-            </IonTabButton>
-            <IonTabButton tab='messages' href={GLOBAL.ROUTES.MESSAGES}>
-              <IonIcon aria-hidden='true' icon={notifications} />
-            </IonTabButton>
-          </IonTabBar>
-        </IonTabs>
-      </AuthProvider>
-    </IonReactRouter>
-  </IonApp>
-);
 
 export default App;

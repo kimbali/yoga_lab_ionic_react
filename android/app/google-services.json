@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "839135900911",
-    "project_id": "yoga-lab-final",
-    "storage_bucket": "yoga-lab-final.firebasestorage.app"
+    "project_number": "777249946285",
+    "project_id": "yoga-booking-service",
+    "storage_bucket": "yoga-booking-service.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:839135900911:android:9bcb8bc25df2503e49571a",
+        "mobilesdk_app_id": "1:777249946285:android:39fdaed39aa0b2b4eca424",
         "android_client_info": {
           "package_name": "io.ionic.starter"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDBbyUKt_DIUKHSY7EvrRXzdlzYG-Uurbk"
+          "current_key": "AIzaSyD7igl1S_9n0UfMQeBRpG7JRNC21XbX9C4"
         }
       ],
       "services": {

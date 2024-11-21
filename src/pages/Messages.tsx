@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import {
   IonButton,
   IonCard,
@@ -7,57 +7,56 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  IonIcon,
 } from "@ionic/react";
-import {
-  registerNotifications,
-  addListeners,
-  getDeliveredNotifications,
-} from "../services/pushNotificationService";
+import { notificationsOffOutline } from "ionicons/icons";
 import Layout from "../components/Layout/Layout";
+import { getDeliveredNotifications } from "../services/pushNotificationService";
+
 const Messages: React.FC = () => {
-  useEffect(() => {
-    const initializePushNotifications = async () => {
-      try {
-        // Register for notifications and set up listeners
-        await registerNotifications();
-        await addListeners();
-      } catch (error) {
-        console.error("Error initializing push notifications", error);
-      }
-    };
-    initializePushNotifications();
-  }, []); // Empty dependency array ensures this runs only once
+  const [notifications, setNotifications] = useState<string[]>([]);
+
+  const fetchNotifications = async () => {
+    try {
+      const delivered = await getDeliveredNotifications();
+      const messages = delivered.notifications.map(
+          (n: any) => n.body || "No content"
+      );
+      setNotifications(messages);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      setNotifications(["Error fetching notifications"]);
+    }
+  };
+
   return (
       <Layout title="Push Notifications">
         <IonGrid>
           <IonRow className="ion-justify-content-center">
-            <IonCol size="12" size-md="6">
+            <IonCol size="12" size-md="8">
               <IonCard>
-                <IonCardHeader style={{ textAlign: "center", color: "var(--ion-color-dark)" }}>
-                  <h2>Manage Notifications</h2>
+                <IonCardHeader style={{ textAlign: "center" }}>
+                  <h2>Notifications</h2>
                 </IonCardHeader>
                 <IonCardContent>
-                  <p
-                      style={{
-                        textAlign: "center",
-                        marginBottom: "20px",
-                        color: "var(--ion-color-medium)",
-                      }}
-                  >
-                    Click below to fetch delivered notifications.
-                  </p>
-                  <div style={{ textAlign: "center" }}>
-                    <IonButton
-                        onClick={getDeliveredNotifications}
-                        color="primary"
-                        expand="block"
-                        style={{
-                          "--background": "var(--ion-color-primary)",
-                          "--color": "var(--ion-color-primary-contrast)",
-                        }}
-                        aria-label="Fetch delivered notifications"
-                    >
-                      Get Delivered Notifications
+                  {notifications.length > 0 ? (
+                      <ul>
+                        {notifications.map((note, index) => (
+                            <li key={index}>{note}</li>
+                        ))}
+                      </ul>
+                  ) : (
+                      <div style={{ textAlign: "center", color: "var(--ion-color-medium)" }}>
+                        <IonIcon
+                            icon={notificationsOffOutline}
+                            style={{ fontSize: "40px", marginBottom: "10px" }}
+                        />
+                        <p>No notifications to show</p>
+                      </div>
+                  )}
+                  <div style={{ textAlign: "center", marginTop: "20px" }}>
+                    <IonButton onClick={fetchNotifications} color="primary">
+                      Fetch Notifications
                     </IonButton>
                   </div>
                 </IonCardContent>
@@ -68,4 +67,5 @@ const Messages: React.FC = () => {
       </Layout>
   );
 };
+
 export default Messages;
