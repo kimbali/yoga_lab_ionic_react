@@ -52,7 +52,20 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>$(PRODUCT_NAME) uses the photo library to scan barcodes</string>
 
+	<key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>remote-notification</string>
+    </array>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>We need to track notifications for relevant content.</string>
 
+<key>NSCameraUsageDescription</key>
+<string>We need access to your camera to take profile pictures.</string>
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>We need access to your photo library to save pictures.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>We need access to your photo library to load saved pictures.</string>
 
 
 
