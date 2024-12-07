@@ -42,9 +42,12 @@ export const registerNotifications = async () => {
   await PushNotifications.register();
 };
 
+
+
 export const getDeliveredNotifications = async () => {
-  const notificationList = await PushNotifications.getDeliveredNotifications();
-  console.log("delivered notifications", notificationList);
+  const result = await PushNotifications.getDeliveredNotifications();
+  console.log("Delivered notifications:", result);
+  return result; // Return the notifications list
 };
 
 /*

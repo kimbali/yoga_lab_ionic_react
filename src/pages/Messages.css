@@ -1,0 +1,18 @@
+.card-header {
+    text-align: center;
+}
+
+.no-notifications {
+    text-align: center;
+    color: var(--ion-color-medium);
+}
+
+.no-notifications-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.fetch-button-container {
+    text-align: center;
+    margin-top: 20px;
+}

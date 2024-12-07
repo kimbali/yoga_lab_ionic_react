@@ -1,0 +1,17 @@
+.input-field {
+    margin-bottom: 16px;
+}
+
+.create-account-button {
+    margin-top: 20px;
+}
+
+.success-message {
+    color: var(--ion-color-success);
+    margin-top: 20px;
+}
+
+.login-prompt {
+    margin-top: 20px;
+    color: var(--ion-color-medium);
+}

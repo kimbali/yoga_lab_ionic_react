@@ -1,0 +1,33 @@
+.profile-header {
+    text-align: center;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+}
+
+.profile-name {
+    margin-top: 10px;
+    color: var(--ion-color-dark);
+}
+
+.profile-info-item {
+    --background: transparent;
+}
+
+.profile-info {
+    margin-bottom: 5px;
+    color: var(--ion-color-medium);
+}
+
+.take-picture-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.take-picture-button {
+    --background: var(--ion-color-primary);
+    --color: var(--ion-color-primary-contrast);
+}
