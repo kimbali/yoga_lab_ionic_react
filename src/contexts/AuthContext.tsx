@@ -28,7 +28,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   // Simulamos la carga del estado de autenticación desde almacenamiento local al iniciar la app
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem(GLOBAL.STORAGE.TOKEN);
     if (token) {
       setIsAuthenticated(true);
     }
@@ -37,7 +37,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     // Simulate async authentication check (e.g., check localStorage or API)
     const checkAuth = () => {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem(GLOBAL.STORAGE.TOKEN);
       setIsAuthenticated(!!token); // if token exists, user is authenticated
       setIsLoading(false); // finished loading
     };
@@ -46,13 +46,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   const login = (token: string) => {
-    localStorage.setItem('authToken', token);
+    localStorage.setItem(GLOBAL.STORAGE.TOKEN, token);
     setIsAuthenticated(true);
     router.push(GLOBAL.ROUTES.APP); // Redirigir a la página principal
   };
 
   const logout = () => {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem(GLOBAL.STORAGE.TOKEN);
     setIsAuthenticated(false);
     router.push(GLOBAL.ROUTES.LOGIN); // Redirigir a la página de login
   };

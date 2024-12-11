@@ -1,8 +1,9 @@
 import { User } from '../interfaces/userType';
+import GLOBAL from '../utils/global';
 
 export const signup = async ({ username, password }: User) => {
   try {
-    const response = await fetch('http://localhost:5001/api/auth/register', {
+    const response = await fetch(`${GLOBAL.API_URL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -24,7 +25,7 @@ export const signup = async ({ username, password }: User) => {
 
 export const login = async ({ username, password }: User) => {
   try {
-    const response = await fetch('http://localhost:5001/api/auth/login', {
+    const response = await fetch(`${GLOBAL.API_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
