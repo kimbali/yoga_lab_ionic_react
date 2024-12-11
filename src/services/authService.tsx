@@ -3,7 +3,7 @@ import GLOBAL from '../utils/global';
 
 export const signup = async ({ username, password }: User) => {
   try {
-    const response = await fetch(`${GLOBAL.LOCAL_API_URL}/auth/register`, {
+    const response = await fetch(`${GLOBAL.API_URL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export const signup = async ({ username, password }: User) => {
 
 export const login = async ({ username, password }: User) => {
   try {
-    const response = await fetch(`${GLOBAL.LOCAL_API_URL}/auth/login`, {
+    const response = await fetch(`${GLOBAL.API_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export const getUserData = async (token: string | null) => {
   }
 
   try {
-    const response = await fetch(`${GLOBAL.LOCAL_API_URL}/auth/user-data`, {
+    const response = await fetch(`${GLOBAL.API_URL}/auth/user-data`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -3,7 +3,7 @@ import GLOBAL from '../utils/global';
 export const fetchYogaClasses = async (schoolId: String) => {
   try {
     const response = await fetch(
-      `${GLOBAL.LOCAL_API_URL}/yoga-classes/by-school/${schoolId}`,
+      `${GLOBAL.API_URL}/yoga-classes/by-school/${schoolId}`,
       {
         method: 'GET',
       }
@@ -23,12 +23,9 @@ export const fetchYogaClasses = async (schoolId: String) => {
 
 export const fetchYogaClass = async (classId: String) => {
   try {
-    const response = await fetch(
-      `${GLOBAL.LOCAL_API_URL}/yoga-classes/${classId}`,
-      {
-        method: 'GET',
-      }
-    );
+    const response = await fetch(`${GLOBAL.API_URL}/yoga-classes/${classId}`, {
+      method: 'GET',
+    });
 
     if (!response.ok) {
       throw new Error('Failed to fetch yoga class');
@@ -45,7 +42,7 @@ export const fetchYogaClass = async (classId: String) => {
 export const joinToClass = async (classId: string, userId: string) => {
   try {
     const response = await fetch(
-      `${GLOBAL.LOCAL_API_URL}/yoga-classes/${classId}/join`,
+      `${GLOBAL.API_URL}/yoga-classes/${classId}/join`,
       {
         method: 'PUT',
         headers: {
@@ -70,7 +67,7 @@ export const joinToClass = async (classId: string, userId: string) => {
 export const leaveClass = async (classId: string, userId: string) => {
   try {
     const response = await fetch(
-      `${GLOBAL.LOCAL_API_URL}/yoga-classes/${classId}/leave`,
+      `${GLOBAL.API_URL}/yoga-classes/${classId}/leave`,
       {
         method: 'PUT',
         headers: {
