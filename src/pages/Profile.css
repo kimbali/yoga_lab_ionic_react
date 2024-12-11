@@ -10,7 +10,7 @@
 
 .profile-name {
     margin-top: 10px;
-    color: var(--ion-color-dark);
+    /* color: var(--ion-color-dark); */
 }
 
 .profile-info-item {

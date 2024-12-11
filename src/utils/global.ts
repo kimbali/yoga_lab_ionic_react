@@ -1,7 +1,7 @@
 // @ts-ignore
 const GLOBAL = {
   API_URL: 'https://yoga-booking-service.vercel.app/api',
-  LOCAL_API_URL: 'http://localhost:5001/api',
+  // API_URL: 'http://localhost:5001/api',
   FAKE_SCHOOL_ID: '67594e1c8dfcdcbd4add5cf0',
   ROUTES: {
     APP: '/app',

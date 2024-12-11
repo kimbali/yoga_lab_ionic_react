@@ -73,3 +73,30 @@ export const getUserData = async (token: string | null) => {
     throw error;
   }
 };
+
+export const updateUserData = async (token: string, userData: User) => {
+  if (!token) {
+    throw new Error('No token provided');
+  }
+
+  try {
+    const response = await fetch(`${GLOBAL.API_URL}/auth/update-user-data`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, userData }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Update user data failed');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    console.error('Error updating user data:', error);
+    throw error;
+  }
+};

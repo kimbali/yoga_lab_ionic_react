@@ -8,18 +8,14 @@ import React, {
 } from 'react';
 import GLOBAL from '../utils/global';
 import { getUserData } from '../services/authService';
+import { User } from '../interfaces/userType';
 
 interface AuthContextType {
   isAuthenticated: boolean;
   login: (userData: User) => void;
   logout: () => void;
   user: User | null;
-}
-
-interface User {
-  token: string;
-  username: string;
-  userId: string;
+  setUser: (user: User | null) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -33,42 +29,50 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const router = useIonRouter();
 
-  // Simulamos la carga del estado de autenticación desde almacenamiento local al iniciar la app
   useEffect(() => {
     const token = localStorage.getItem(GLOBAL.STORAGE.TOKEN);
 
     const getUser = async (token: string) => {
-      const data = await getUserData(token);
-      setUser(data.user);
+      try {
+        const data = await getUserData(token);
+        setUser({ ...data.user, token });
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        setIsAuthenticated(false);
+      }
     };
 
     if (token) {
       setIsAuthenticated(true);
-      getUser(token); // Call the async function to get user data
+      getUser(token);
+    } else {
+      setIsAuthLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    // Simulate async authentication check (e.g., check localStorage or API)
     const checkAuth = () => {
       const token = localStorage.getItem(GLOBAL.STORAGE.TOKEN);
-      setIsAuthenticated(!!token); // if token exists, user is authenticated
-      setIsAuthLoading(false); // finished loading
+      setIsAuthenticated(!!token);
+      setIsAuthLoading(false);
     };
 
     checkAuth();
   }, []);
 
   const login = (userData: User) => {
-    localStorage.setItem(GLOBAL.STORAGE.TOKEN, userData.token);
-    setIsAuthenticated(true);
-    setUser(userData);
-    router.push(GLOBAL.ROUTES.APP);
+    if (userData && userData.token) {
+      localStorage.setItem(GLOBAL.STORAGE.TOKEN, userData.token);
+      setIsAuthenticated(true);
+      setUser(userData);
+      router.push(GLOBAL.ROUTES.APP);
+    }
   };
 
   const logout = () => {
     localStorage.removeItem(GLOBAL.STORAGE.TOKEN);
     setIsAuthenticated(false);
+    setUser(null); // Resetear user al cerrar sesión
     router.push(GLOBAL.ROUTES.LOGIN);
   };
 
@@ -77,13 +81,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, user }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, login, logout, user, setUser }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Custom hook para usar el AuthContext
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
