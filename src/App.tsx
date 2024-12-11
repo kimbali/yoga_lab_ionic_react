@@ -44,6 +44,7 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 import '@ionic/react/css/palettes/dark.system.css';
 import './theme/variables.css';
+import './theme/global.css';
 import './theme/mapa.css';
 
 setupIonicReact();
@@ -92,17 +93,26 @@ const App: React.FC = () => {
         <AuthProvider>
           <IonTabs>
             <IonRouterOutlet>
-              <Route exact path={GLOBAL.ROUTES.LOGIN} component={LoginPage} />
               <Route exact path={GLOBAL.ROUTES.SIGNUP} component={SignUp} />
+              <Route exact path={GLOBAL.ROUTES.LOGIN} component={LoginPage} />
               <Route exact path={GLOBAL.ROUTES.APP} component={Menu} />
-              <Route exact path={GLOBAL.ROUTES.MESSAGES} component={Messages} />
-              <Route exact path={GLOBAL.ROUTES.LOCATION} component={Location} />
-              <Route
+
+              <ProtectedRoute
+                exact
+                path={GLOBAL.ROUTES.MESSAGES}
+                component={Messages}
+              />
+              <ProtectedRoute
+                exact
+                path={GLOBAL.ROUTES.LOCATION}
+                component={Location}
+              />
+              <ProtectedRoute
                 exact
                 path={GLOBAL.ROUTES.YOGA_CLASS_LIST}
                 component={YogaClassList}
               />
-              <Route
+              <ProtectedRoute
                 exact
                 path={GLOBAL.ROUTES.YOGA_CLASS_DETAILS}
                 component={YogaClassDetails}
@@ -116,6 +126,7 @@ const App: React.FC = () => {
                 <Redirect to={GLOBAL.ROUTES.LOGIN} />
               </Route>
             </IonRouterOutlet>
+
             <IonTabBar slot='bottom'>
               <IonTabButton tab='menu' href={GLOBAL.ROUTES.APP}>
                 <IonIcon aria-hidden='true' icon={home} />

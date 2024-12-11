@@ -1,6 +1,9 @@
+import './lotus.css';
+
 const Lotus: React.FC = () => {
   return (
     <svg
+      className='lotus'
       width='64'
       height='64'
       viewBox='0 0 64 64'

@@ -8,12 +8,18 @@ import {
   IonCardContent,
   IonIcon,
   IonInput,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardSubtitle,
+  IonLabel,
+  IonItem,
+  IonText,
 } from '@ionic/react';
 import { logInOutline } from 'ionicons/icons';
 import { login as loginService } from '../services/authService';
 import { useAuth } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
-import splashImg from '../assets/splash-page.jpg';
+import LOTUS_WOMAN from '../assets/lotus-woman.png';
 import Layout from '../components/Layout/Layout';
 import './LoginPage.css';
 
@@ -48,66 +54,64 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <Layout title='login' loading={loading}>
-      <IonGrid fixed>
-        <IonRow className='ion-justify-content-center'>
-          <IonCol sizeXs='12' sizeMd='8' sizeLg='6' sizeXl='4'>
-            <div className='ion-text-center ion-padding'>
-              <img
-                src={splashImg}
-                alt='Image of a person doing a yoga posture'
-                className='splash-image'
-              />
-            </div>
-          </IonCol>
-        </IonRow>
+    <Layout title='Login' loading={loading}>
+      <IonCard className='page-card'>
+        <img src={LOTUS_WOMAN} alt='Image of a person doing a yoga posture' />
 
-        <IonRow className='ion-justify-content-center'>
-          <IonCol sizeXs='12' sizeMd='8' sizeLg='6' sizeXl='4'>
-            <IonCard className='form-container'>
-              <IonCardContent>
-                <form onSubmit={handleLogin}>
-                  <IonInput
-                    className='ion-margin-bottom'
-                    fill='outline'
-                    labelPlacement='stacked'
-                    label='Email'
-                    type='email'
-                    placeholder='jonDoe@gmail.com'
-                    value={email}
-                    onIonInput={(e: any) => setEmail(e.target.value)}
-                  />
+        <IonCardHeader>
+          <IonCardTitle>Inicia sessión</IonCardTitle>
+        </IonCardHeader>
 
-                  <IonInput
-                    fill='outline'
-                    labelPlacement='stacked'
-                    label='Password'
-                    type='password'
-                    value={password}
-                    onIonInput={(e: any) => setPassword(e.target.value)}
-                  />
+        <IonCardContent>
+          <form onSubmit={handleLogin}>
+            <IonInput
+              className='ion-margin-bottom'
+              fill='outline'
+              labelPlacement='stacked'
+              label='Email'
+              type='email'
+              placeholder='hello@gmail.com'
+              value={email}
+              onIonInput={(e: any) => setEmail(e.target.value)}
+            />
 
-                  {error && <p className='error-message'>Error: {error}</p>}
+            <IonInput
+              fill='outline'
+              labelPlacement='stacked'
+              label='Password'
+              type='password'
+              value={password}
+              onIonInput={(e: any) => setPassword(e.target.value)}
+            />
 
-                  <IonButton
-                    type='submit'
-                    expand='block'
-                    className='login-button'
-                  >
-                    Login
-                    <IonIcon icon={logInOutline} slot='end' />
-                  </IonButton>
+            <IonItem>
+              <IonLabel>
+                Aun no tienes una cuenta?{' '}
+                <Link to='/signup'>Registrate aqui</Link>
+              </IonLabel>
+            </IonItem>
+          </form>
+        </IonCardContent>
 
-                  <p className='signup-link'>
-                    Don't have an account?{' '}
-                    <Link to='/signup'>Sign up here</Link>
-                  </p>
-                </form>
-              </IonCardContent>
-            </IonCard>
-          </IonCol>
-        </IonRow>
-      </IonGrid>
+        <IonButton
+          className='ion-margin'
+          color='primary'
+          size='large'
+          expand='block'
+          type='submit'
+          disabled={!password || !email}
+          onClick={handleLogin}
+        >
+          Login
+          <IonIcon icon={logInOutline} slot='end' />
+        </IonButton>
+
+        <div className='ion-text-center' style={{ width: '100%' }}>
+          <IonLabel>
+            {error && <IonText color='danger'>{error}</IonText>}
+          </IonLabel>
+        </div>
+      </IonCard>
     </Layout>
   );
 };

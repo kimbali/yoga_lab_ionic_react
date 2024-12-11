@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   IonCard,
   IonButton,
@@ -7,92 +7,95 @@ import {
   IonInput,
   IonItem,
   IonList,
-  IonGrid,
-  IonRow,
-  IonCol,
-} from "@ionic/react";
-import { checkmarkDoneCircleOutline } from "ionicons/icons";
-import { signup } from "../services/authService";
-import { Link } from "react-router-dom";
-import Layout from "../components/Layout/Layout";
-import "./SignUp.css"; // Import the external CSS file
+  IonCardHeader,
+  IonCardTitle,
+  IonLabel,
+  IonText,
+  IonItemDivider,
+} from '@ionic/react';
+import { addCircleOutline, checkmarkDoneCircleOutline } from 'ionicons/icons';
+import { signup } from '../services/authService';
+import { Link } from 'react-router-dom';
+import Layout from '../components/Layout/Layout';
+import LOTUS_WOMAN from '../assets/lotus-woman.png';
+import './SignUp.css';
 
 const SignUp: React.FC = () => {
-  const [username, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await signup({ username, password });
+      const res = await signup({ username: email, password });
       setSuccessMessage(res.message);
     } catch (error) {
-      console.error("Registration failed:", error);
-      // Handle error (e.g., show a UI error message)
+      console.error('Registration failed:', error);
     }
   };
 
   return (
-    <Layout title="Sign Up">
-      <IonGrid fixed>
-        <IonRow className="ion-justify-content-center">
-          <IonCol sizeXs="12" sizeMd="8" sizeLg="6" sizeXl="4">
-            <IonCard>
-              <IonCardContent>
-                <form onSubmit={handleSignUp}>
-                  <IonList>
-                    <IonItem>
-                      <IonInput
-                        className="input-field"
-                        fill="outline"
-                        labelPlacement="stacked"
-                        label="Username"
-                        type="text"
-                        value={username}
-                        onIonChange={(e) => setName(e.detail.value!)}
-                        placeholder="Enter your username"
-                      />
-                    </IonItem>
-                    <IonItem>
-                      <IonInput
-                        className="input-field"
-                        fill="outline"
-                        labelPlacement="stacked"
-                        label="Password"
-                        type="password"
-                        value={password}
-                        onIonChange={(e) => setPassword(e.detail.value!)}
-                      />
-                    </IonItem>
-                  </IonList>
+    <Layout title='Sign Up'>
+      <IonCard className='page-card'>
+        <img src={LOTUS_WOMAN} alt='Image of a person doing a yoga posture' />
 
-                  <IonButton
-                    className="create-account-button"
-                    color="secondary"
-                    type="submit"
-                    expand="block"
-                  >
-                    Create Account
-                    <IonIcon icon={checkmarkDoneCircleOutline} slot="end" />
-                  </IonButton>
-                </form>
+        <IonCardHeader>
+          <IonCardTitle>Registrate</IonCardTitle>
+        </IonCardHeader>
 
-                {successMessage && (
-                  <p className="success-message">
-                    Success: {successMessage},{" "}
-                    <Link to="/login">Log in here</Link>
-                  </p>
-                )}
+        <IonCardContent>
+          <form onSubmit={handleSignUp}>
+            <IonInput
+              className='ion-margin-bottom'
+              fill='outline'
+              labelPlacement='stacked'
+              label='Email'
+              type='email'
+              placeholder='hello@gmail.com'
+              value={email}
+              onIonInput={(e: any) => setEmail(e.target.value)}
+            />
+            <IonInput
+              fill='outline'
+              labelPlacement='stacked'
+              label='Password'
+              type='password'
+              value={password}
+              onIonInput={(e: any) => setPassword(e.target.value)}
+            />
+          </form>
 
-                <p className="login-prompt">
-                  Already have an account? <Link to="/login">Log in here</Link>
-                </p>
-              </IonCardContent>
-            </IonCard>
-          </IonCol>
-        </IonRow>
-      </IonGrid>
+          <IonItem>
+            <IonLabel>
+              Ya tienes una cuenta?{' '}
+              <Link to='/login'>Entra con tu usuario</Link>
+            </IonLabel>
+          </IonItem>
+        </IonCardContent>
+
+        <IonButton
+          className='ion-margin'
+          color='primary'
+          size='large'
+          expand='block'
+          type='submit'
+          disabled={!password || !email}
+          onClick={handleSignUp}
+        >
+          Crear usuario <IonIcon icon={addCircleOutline} />
+        </IonButton>
+
+        <div className='ion-text-center' style={{ width: '100%' }}>
+          <IonLabel>
+            {successMessage && (
+              <IonText color='warning'>
+                {successMessage} <Link to='/login'>Ir al login</Link>
+              </IonText>
+            )}
+          </IonLabel>
+        </div>
+      </IonCard>
     </Layout>
   );
 };
