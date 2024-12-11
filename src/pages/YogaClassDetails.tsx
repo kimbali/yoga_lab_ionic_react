@@ -4,9 +4,12 @@ import { useParams } from 'react-router-dom';
 import { fetchYogaClass, joinToClass } from '../services/yogaClassService';
 import Layout from '../components/Layout/Layout';
 import { YogaClass } from './YogaClassList';
+import { useAuth } from '../contexts/AuthContext';
 
 const YogaClassDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const { user } = useAuth();
+
   const [yogaClass, setYogaClass] = useState<YogaClass | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -21,60 +24,56 @@ const YogaClassDetails: React.FC = () => {
         setLoading(false);
       }
     };
+
     fetchClassDetails();
   }, [id]);
 
   const handleJoinClass = async () => {
-    if (!yogaClass) {
-      return;
-    }
     try {
-      await joinToClass(yogaClass?._id, '67594451e76f3d767f6fa79b');
-      alert('You have successfully joined the class!');
+      if (user && yogaClass) {
+        await joinToClass(yogaClass?._id, user.userId);
+        alert('You have successfully joined the class!');
+      }
     } catch (error) {
       alert('Error joining the class');
     }
   };
 
   return (
-    <Layout title={'Yoga class'}>
-      <>
-        {loading ? (
-          <IonSpinner />
-        ) : yogaClass ? (
-          <div>
-            <h1>{yogaClass.title}</h1>
-            <p>
-              <strong>Description:</strong> {yogaClass.description}
-            </p>
-            <p>
-              <strong>Date:</strong> {new Date(yogaClass.date).toLocaleString()}
-            </p>
-            <p>
-              <strong>Duration:</strong> {yogaClass.duration} minutes
-            </p>
-            <p>
-              <strong>Type:</strong> {yogaClass.type}
-            </p>
-            <p>
-              <strong>Level:</strong> {yogaClass.level}
-            </p>
-            <p>
-              <strong>Teacher:</strong> {yogaClass.teacher}
-            </p>
-            <p>
-              <strong>Capacity:</strong> {yogaClass.capacity}
-            </p>
-            <p>
-              <strong>Registrations:</strong> {yogaClass.registrations.length}
-            </p>
+    <Layout title={'Yoga class'} loading={loading}>
+      {yogaClass ? (
+        <div>
+          <h1>{yogaClass.title}</h1>
+          <p>
+            <strong>Description:</strong> {yogaClass.description}
+          </p>
+          <p>
+            <strong>Date:</strong> {new Date(yogaClass.date).toLocaleString()}
+          </p>
+          <p>
+            <strong>Duration:</strong> {yogaClass.duration} minutes
+          </p>
+          <p>
+            <strong>Type:</strong> {yogaClass.type}
+          </p>
+          <p>
+            <strong>Level:</strong> {yogaClass.level}
+          </p>
+          <p>
+            <strong>Teacher:</strong> {yogaClass.teacher}
+          </p>
+          <p>
+            <strong>Capacity:</strong> {yogaClass.capacity}
+          </p>
+          <p>
+            <strong>Registrations:</strong> {yogaClass.registrations.length}
+          </p>
 
-            <IonButton onClick={handleJoinClass}>Reservar</IonButton>
-          </div>
-        ) : (
-          <p>Class not found</p>
-        )}
-      </>
+          <IonButton onClick={handleJoinClass}>Reservar</IonButton>
+        </div>
+      ) : (
+        <p>Class not found</p>
+      )}
     </Layout>
   );
 };

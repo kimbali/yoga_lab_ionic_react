@@ -36,6 +36,7 @@ const Booking: React.FC = () => {
         setLoading(false);
       }
     };
+
     fetchClasses();
   }, []);
 
@@ -44,33 +45,27 @@ const Booking: React.FC = () => {
   };
 
   return (
-    <Layout title='Yoga classes'>
-      <>
-        {loading ? (
-          <IonSpinner />
-        ) : (
-          <IonList>
-            {yogaClasses.map(yogaClass => (
-              <IonItem
-                key={yogaClass._id}
-                button
-                onClick={() => handleClassClick(yogaClass._id)}
-                className='yoga-class-item'
-              >
-                <IonLabel>
-                  <div className='yoga-class-header'>
-                    <h2>{yogaClass.title}</h2>
-                    <p>{yogaClass.type}</p>
-                  </div>
-                  <p>Date: {new Date(yogaClass.date).toLocaleString()}</p>
-                  <p>Duration: {yogaClass.duration} minutes</p>
-                  <p>Level: {yogaClass.level}</p>
-                </IonLabel>
-              </IonItem>
-            ))}
-          </IonList>
-        )}
-      </>
+    <Layout title='Yoga classes' loading={loading}>
+      <IonList>
+        {yogaClasses.map(yogaClass => (
+          <IonItem
+            key={yogaClass._id}
+            button
+            onClick={() => handleClassClick(yogaClass._id)}
+            className='yoga-class-item'
+          >
+            <IonLabel>
+              <div className='yoga-class-header'>
+                <h2>{yogaClass.title}</h2>
+                <p>{yogaClass.type}</p>
+              </div>
+              <p>Date: {new Date(yogaClass.date).toLocaleString()}</p>
+              <p>Duration: {yogaClass.duration} minutes</p>
+              <p>Level: {yogaClass.level}</p>
+            </IonLabel>
+          </IonItem>
+        ))}
+      </IonList>
     </Layout>
   );
 };

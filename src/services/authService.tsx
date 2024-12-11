@@ -3,7 +3,7 @@ import GLOBAL from '../utils/global';
 
 export const signup = async ({ username, password }: User) => {
   try {
-    const response = await fetch(`${GLOBAL.API_URL}/auth/register`, {
+    const response = await fetch(`${GLOBAL.LOCAL_API_URL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export const signup = async ({ username, password }: User) => {
 
 export const login = async ({ username, password }: User) => {
   try {
-    const response = await fetch(`${GLOBAL.API_URL}/auth/login`, {
+    const response = await fetch(`${GLOBAL.LOCAL_API_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -43,6 +43,33 @@ export const login = async ({ username, password }: User) => {
     return data;
   } catch (error: any) {
     console.error('Error in login:', error);
+    throw error;
+  }
+};
+
+export const getUserData = async (token: string | null) => {
+  if (!token) {
+    throw new Error('No token provided');
+  }
+
+  try {
+    const response = await fetch(`${GLOBAL.LOCAL_API_URL}/auth/user-data`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Get user data failed');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    console.error('Error fetching user data:', error);
     throw error;
   }
 };

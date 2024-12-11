@@ -1,4 +1,4 @@
-import { useIonRouter } from '@ionic/react';
+import { IonSpinner, useIonRouter } from '@ionic/react';
 import React, {
   createContext,
   useContext,
@@ -6,13 +6,20 @@ import React, {
   useEffect,
   ReactNode,
 } from 'react';
-import { useHistory } from 'react-router-dom';
 import GLOBAL from '../utils/global';
+import { getUserData } from '../services/authService';
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  login: (token: string) => void;
+  login: (userData: User) => void;
   logout: () => void;
+  user: User | null;
+}
+
+interface User {
+  token: string;
+  username: string;
+  userId: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -20,17 +27,24 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
 
-  const history = useHistory();
   const router = useIonRouter();
 
   // Simulamos la carga del estado de autenticación desde almacenamiento local al iniciar la app
   useEffect(() => {
     const token = localStorage.getItem(GLOBAL.STORAGE.TOKEN);
+
+    const getUser = async (token: string) => {
+      const data = await getUserData(token);
+      setUser(data.user);
+    };
+
     if (token) {
       setIsAuthenticated(true);
+      getUser(token); // Call the async function to get user data
     }
   }, []);
 
@@ -39,30 +53,31 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     const checkAuth = () => {
       const token = localStorage.getItem(GLOBAL.STORAGE.TOKEN);
       setIsAuthenticated(!!token); // if token exists, user is authenticated
-      setIsLoading(false); // finished loading
+      setIsAuthLoading(false); // finished loading
     };
 
     checkAuth();
   }, []);
 
-  const login = (token: string) => {
-    localStorage.setItem(GLOBAL.STORAGE.TOKEN, token);
+  const login = (userData: User) => {
+    localStorage.setItem(GLOBAL.STORAGE.TOKEN, userData.token);
     setIsAuthenticated(true);
-    router.push(GLOBAL.ROUTES.APP); // Redirigir a la página principal
+    setUser(userData);
+    router.push(GLOBAL.ROUTES.APP);
   };
 
   const logout = () => {
     localStorage.removeItem(GLOBAL.STORAGE.TOKEN);
     setIsAuthenticated(false);
-    router.push(GLOBAL.ROUTES.LOGIN); // Redirigir a la página de login
+    router.push(GLOBAL.ROUTES.LOGIN);
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>; // Optionally, show a loading spinner while checking authentication
+  if (isAuthLoading) {
+    return <IonSpinner />;
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, user }}>
       {children}
     </AuthContext.Provider>
   );
