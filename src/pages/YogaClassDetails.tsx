@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IonButton } from '@ionic/react';
+import { IonButton, IonText } from '@ionic/react';
 import { useParams } from 'react-router-dom';
 import {
   fetchYogaClass,
@@ -120,6 +120,12 @@ const YogaClassDetails: React.FC = () => {
             >
               Cancel
             </IonButton>
+          )}
+
+          {isBooked && (
+            <IonText color='primary'>
+              <h2>Tienes reservada esta clase!</h2>
+            </IonText>
           )}
         </div>
       ) : (
