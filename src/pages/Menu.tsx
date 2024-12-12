@@ -16,7 +16,7 @@ import './Menu.css';
 const Menu: React.FC = () => {
   return (
     <Layout title='Bienvenido'>
-      <IonCard className='menu-card'>
+      <IonCard className='page-card'>
         <img
           className='woman'
           src={LOTUS_WOMAN}

@@ -1,6 +1,8 @@
 .page-card {
     border-radius: 16px;
     padding-bottom: 24px;
+    max-width: 460px;
+    margin: 0 auto;
 }
 
 .separtor {

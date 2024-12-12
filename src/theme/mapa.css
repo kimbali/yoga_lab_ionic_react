@@ -1,1 +1,8 @@
 @import "leaflet/dist/leaflet.css";
+
+.map-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
