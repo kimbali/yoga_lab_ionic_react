@@ -1,29 +1,30 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L, { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { IonButton, IonButtons } from '@ionic/react';
+import { IonButton, IonText } from '@ionic/react';
 
 const Mapa: React.FC = () => {
   const mapRef = useRef<L.Map | null>(null); // Referencia al mapa
   const mapContainerRef = useRef<HTMLDivElement | null>(null); // Referencia al contenedor del mapa
   const [userCoords, setUserCoords] = useState<[number, number] | null>(null);
+  const [routeDuration, setRouteDuration] = useState<string | null>(null); // Estado para guardar la duración de la ruta
   const yogaLabCoords: LatLngExpression = [
-    // 41.384838633090645, 2.1285981663790148,
-    41.69476384112392, 15.301436978105972,
+    41.390120361981786,
+    2.146794650246499, // barcelona
+    // 41.69476384112392,
+    // 15.301436978105972, // italia
   ];
 
   useEffect(() => {
-    // Asegúrate de que no se cree un mapa duplicado
+    // Inicializa el mapa si aún no existe
     if (mapRef.current || !mapContainerRef.current) {
       return;
     }
 
-    // Inicializa el mapa
     mapRef.current = L.map(mapContainerRef.current).setView(yogaLabCoords, 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      attribution: '&copy; OpenStreetMap contributors',
     }).addTo(mapRef.current);
 
     // Agrega un marcador para el centro de yoga
@@ -93,15 +94,23 @@ const Mapa: React.FC = () => {
           coord[0],
         ]);
 
+        // Agrega la ruta al mapa
         if (mapRef.current) {
-          // Agrega la ruta al mapa como una polyline
-          const routeLine = L.polyline(route, { color: 'blue' }).addTo(
+          const routeLine = L.polyline(route, { color: '#3a8b8d' }).addTo(
             mapRef.current
           );
 
           // Centra el mapa en la ruta
           mapRef.current.fitBounds(routeLine.getBounds());
         }
+
+        // Calcula y guarda la duración de la ruta
+        const durationInSeconds =
+          data.features[0].properties.segments[0].duration; // Duración en segundos
+        const hours = Math.floor(durationInSeconds / 3600);
+        const minutes = Math.floor((durationInSeconds % 3600) / 60);
+
+        setRouteDuration(`${hours}h ${minutes}min`);
       }
     } catch (error) {
       console.error('Error al obtener la ruta:', error);
@@ -111,8 +120,6 @@ const Mapa: React.FC = () => {
 
   return (
     <>
-      <h1>El centro de yoga</h1>
-
       <div className='map-buttons'>
         <IonButton
           fill='outline'
@@ -142,6 +149,14 @@ const Mapa: React.FC = () => {
           height: '55vh',
         }}
       ></div>
+
+      {routeDuration && (
+        <IonText color='primary'>
+          <h3>
+            <strong>Duración del trayecto:</strong> {routeDuration}
+          </h3>
+        </IonText>
+      )}
     </>
   );
 };
