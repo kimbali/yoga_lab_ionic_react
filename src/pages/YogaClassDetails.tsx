@@ -30,7 +30,7 @@ const YogaClassDetails: React.FC = () => {
 
   const handleJoinClass = async () => {
     try {
-      if (user && yogaClass) {
+      if (user?.userId && yogaClass) {
         await joinToClass(yogaClass?._id, user.userId);
         alert('You have successfully joined the class!');
       }
