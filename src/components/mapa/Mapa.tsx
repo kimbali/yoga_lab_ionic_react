@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
 
 interface MapaProps {
@@ -7,35 +7,61 @@ interface MapaProps {
 }
 
 const Mapa: React.FC<MapaProps> = ({ lat, lng }) => {
+  const mapRef = useRef<L.Map | null>(null); // Referencia al mapa
+
   useEffect(() => {
-    // Crear el mapa
-    const map = L.map('map').setView([42.5078, 1.5211], 13); // Coordenadas de Andorra, por ejemplo.
+    if (!mapRef.current) {
+      // Crear el mapa solo si no está inicializado
+      mapRef.current = L.map('map').setView([42.5078, 1.5211], 13);
 
-    // Agregar el tile layer (mapa base)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(mapRef.current);
 
-    // Agregar un marcador (opcional)
-    L.marker([42.5078, 1.5211])
-      .addTo(map)
-      .bindPopup('¡Aquí está Andorra!')
-      .openPopup();
-
-    return () => {
-      map.remove(); // Limpia el mapa al desmontar el componente
-    };
+      L.marker([42.5078, 1.5211])
+        .addTo(mapRef.current)
+        .bindPopup('¡Aquí está Andorra!')
+        .openPopup();
+    }
   }, []);
+
+  const handleGeolocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const { latitude, longitude } = position.coords;
+          if (mapRef.current) {
+            mapRef.current.setView([latitude, longitude], 15);
+            L.marker([latitude, longitude])
+              .addTo(mapRef.current)
+              .bindPopup('¡Estás aquí!')
+              .openPopup();
+          }
+        },
+        error => {
+          console.error('Error al obtener la geolocalización:', error);
+        }
+      );
+    } else {
+      alert('La geolocalización no está soportada en este navegador.');
+    }
+  };
 
   return (
     <>
-      <h1> mapa</h1>
+      <h1>Mapa</h1>
+      <button
+        style={{ margin: '10px', padding: '10px', cursor: 'pointer' }}
+        onClick={handleGeolocation}
+      >
+        Mi ubicación
+      </button>
       <div
         id='map'
         style={{
           width: '100%',
-          height: '75vh', // Ajusta el tamaño según tu diseño
+          height: '55vh',
         }}
       ></div>
     </>

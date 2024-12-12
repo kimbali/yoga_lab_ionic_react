@@ -40,7 +40,7 @@ const Profile: React.FC = () => {
       console.error('Error taking photo:', error);
     }
   };
-  console.log(user);
+
   const handleSave = async (userData: User) => {
     try {
       if (user && user.token) {
