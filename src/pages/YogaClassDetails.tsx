@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { IonButton, IonSpinner } from '@ionic/react';
+import { IonButton } from '@ionic/react';
 import { useParams } from 'react-router-dom';
-import { fetchYogaClass, joinToClass } from '../services/yogaClassService';
+import {
+  fetchYogaClass,
+  joinToClass,
+  leaveClass,
+} from '../services/yogaClassService';
 import Layout from '../components/Layout/Layout';
 import { YogaClass } from './YogaClassList';
 import { useAuth } from '../contexts/AuthContext';
@@ -9,15 +13,27 @@ import { useAuth } from '../contexts/AuthContext';
 const YogaClassDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
-
   const [yogaClass, setYogaClass] = useState<YogaClass | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isBooked, setIsBooked] = useState<boolean>(false);
+
+  const isItBooked = (registrations: string[]) => {
+    if (user?.userId && yogaClass) {
+      return registrations.includes(user.userId);
+    }
+    return false;
+  };
 
   useEffect(() => {
     const fetchClassDetails = async () => {
       try {
         const data = await fetchYogaClass(id);
         setYogaClass(data);
+
+        if (data && data.registrations && user?.userId) {
+          const bookIsBooked = isItBooked(data.registrations);
+          setIsBooked(bookIsBooked);
+        }
       } catch (error) {
         console.error('Error fetching class details:', error);
       } finally {
@@ -26,16 +42,29 @@ const YogaClassDetails: React.FC = () => {
     };
 
     fetchClassDetails();
-  }, [id]);
+  }, [id, user?.userId]);
 
   const handleJoinClass = async () => {
     try {
       if (user?.userId && yogaClass) {
         await joinToClass(yogaClass?._id, user.userId);
-        alert('You have successfully joined the class!');
+        alert('Te esperamos en clase!');
+        setIsBooked(true);
       }
     } catch (error) {
       alert('Error joining the class');
+    }
+  };
+
+  const handleCancelClass = async () => {
+    try {
+      if (user?.userId && yogaClass) {
+        await leaveClass(yogaClass?._id, user.userId);
+        alert('Has cancelado tu reserva!');
+        setIsBooked(false);
+      }
+    } catch (error) {
+      alert('Error leaving the class');
     }
   };
 
@@ -69,7 +98,29 @@ const YogaClassDetails: React.FC = () => {
             <strong>Registrations:</strong> {yogaClass.registrations.length}
           </p>
 
-          <IonButton onClick={handleJoinClass}>Reservar</IonButton>
+          {!isBooked && (
+            <IonButton
+              color='primary'
+              size='large'
+              expand='block'
+              type='submit'
+              onClick={handleJoinClass}
+            >
+              Reservar
+            </IonButton>
+          )}
+
+          {isBooked && (
+            <IonButton
+              color='primary'
+              size='large'
+              expand='block'
+              type='submit'
+              onClick={handleCancelClass}
+            >
+              Cancel
+            </IonButton>
+          )}
         </div>
       ) : (
         <p>Class not found</p>
